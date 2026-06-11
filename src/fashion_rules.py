@@ -46,6 +46,42 @@ TREND_COLORS: List[Tuple[str, str]] = [
 ]
 
 
+OFFLINE_MONTH_FACTORS = {
+    1: 0.88,
+    2: 0.94,
+    3: 1.12,
+    4: 1.05,
+    5: 1.00,
+    6: 1.08,
+    7: 1.04,
+    8: 0.98,
+    9: 1.15,
+    10: 1.07,
+    11: 1.13,
+    12: 1.24,
+}
+
+
+OFFLINE_YEAR_FACTORS = {
+    2023: 0.82,
+    2024: 0.95,
+    2025: 1.05,
+    2026: 1.16,
+}
+
+
+CATEGORY_DEMAND_WEIGHTS = {
+    "Tops": 1.25,
+    "Bottoms": 1.18,
+    "Dresses": 0.92,
+    "Outerwear": 0.86,
+    "Accessories": 0.78,
+    "Footwear": 0.74,
+    "Kids Tops": 0.88,
+    "Kids Bottoms": 0.82,
+}
+
+
 CATEGORY_BLUEPRINT = [
     {"category_name": "Tops", "category_group": "Apparel", "target_gender": "unisex", "target_age_group": "adult"},
     {"category_name": "Bottoms", "category_group": "Apparel", "target_gender": "unisex", "target_age_group": "adult"},
@@ -138,6 +174,24 @@ def get_markdown_pct(sell_through_rate: float, weeks_to_end_season: int) -> floa
     if sell_through_rate >= 0.35:
         return 0.40
     return 0.50
+
+
+def offline_upt_weights(store_type: str, month: int) -> Dict[int, float]:
+    if store_type == "mall":
+        if month in {3, 9, 12}:
+            return {1: 0.14, 2: 0.50, 3: 0.27, 4: 0.09}
+        return {1: 0.18, 2: 0.54, 3: 0.22, 4: 0.06}
+    if month in {3, 9, 12}:
+        return {1: 0.22, 2: 0.56, 3: 0.18, 4: 0.04}
+    return {1: 0.27, 2: 0.56, 3: 0.14, 4: 0.03}
+
+
+def offline_payment_weights(year: int) -> Dict[str, float]:
+    if year <= 2024:
+        return {"cash": 0.34, "card": 0.46, "e-wallet": 0.20}
+    if year == 2025:
+        return {"cash": 0.25, "card": 0.47, "e-wallet": 0.28}
+    return {"cash": 0.18, "card": 0.48, "e-wallet": 0.34}
 
 
 def sizes_for_gender(style_gender: str) -> List[str]:

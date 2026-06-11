@@ -164,39 +164,14 @@ Recommended milestone order:
 
 ```text
 omnichannel-fashion-analytics/
-├── sql/
-├── FabricFlow/
-│   ├── src/
-│   ├── scripts/
-│   └── data/raw/
+├── data/raw/
 ├── docs/
+├── scripts/
+├── sql/
+├── src/
 ├── README.md
 └── requirements.txt
 ```
-
-## Push Recommendation
-
-For GitHub and portfolio presentation, it is better to push by milestone, not “SQL only forever” and not “everything in one giant commit”.
-
-Best approach:
-
-* Push the current codebase now
-* But split it into small logical commits
-* Keep commit messages milestone-based
-
-Suggested commit sequence:
-
-1. `init: add SQL schema and verification scripts`
-2. `feat: add masterdata fake generation and CSV backups`
-3. `feat: add masterdata ETL loader and verification`
-4. `feat: add supply marketing inventory setup generators and loaders`
-5. `docs: update README with progress and milestone plan`
-
-This looks better than pushing only SQL first if the fake data and loaders are already working, because:
-
-* it shows end-to-end progress
-* it proves you can build incrementally
-* it still keeps the repo easy to review if commits are clean
 
 ## Author
 
